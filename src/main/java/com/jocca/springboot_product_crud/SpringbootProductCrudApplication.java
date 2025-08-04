@@ -1,0 +1,13 @@
+package com.jocca.springboot_product_crud;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringbootProductCrudApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringbootProductCrudApplication.class, args);
+	}
+
+}
