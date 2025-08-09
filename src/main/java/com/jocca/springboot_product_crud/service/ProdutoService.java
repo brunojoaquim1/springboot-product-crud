@@ -3,9 +3,8 @@ package com.jocca.springboot_product_crud.service;
 import com.jocca.springboot_product_crud.model.Produto;
 import com.jocca.springboot_product_crud.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.http.HttpStatus;
-import com.jocca.springboot_product_crud.DTO.ProdutoDTO;
+import com.jocca.springboot_product_crud.dto.ProdutoDTO;
+import com.jocca.springboot_product_crud.exception.ProdutoNaoEncontradoException;
 
 
 import java.util.List;
@@ -28,7 +27,8 @@ public class ProdutoService {
     }
 
     public Produto atualizarProduto(Long id, ProdutoDTO dto) {
-        Produto produto = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado"));
+        Produto produto = repository.findById(id)
+                                    .orElseThrow(() -> new ProdutoNaoEncontradoException(id));
 
         produto.setNome(dto.getNome());
         produto.setPreco(dto.getPreco());
@@ -36,13 +36,17 @@ public class ProdutoService {
 
         return repository.save(produto);
     }
-
-
     public void deletar(Long id) {
-        repository.findById(id).orElseThrow(() ->
-            new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado"));
+        Produto produto = repository.findById(id)
+                                    .orElseThrow(() -> new ProdutoNaoEncontradoException(id));
 
         repository.deleteById(id);
     }
+    
+    public Produto buscarPorId(Long id) {
+    return repository.findById(id)
+        .orElseThrow(() -> new ProdutoNaoEncontradoException(id));
+    }
+
 
 }

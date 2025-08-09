@@ -1,4 +1,4 @@
-package com.jocca.springboot_product_crud.DTO;
+package com.jocca.springboot_product_crud.dto;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;

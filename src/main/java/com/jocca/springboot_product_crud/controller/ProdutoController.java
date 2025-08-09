@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.*;
 import java.util.List;
-import com.jocca.springboot_product_crud.DTO.ProdutoDTO;
+import com.jocca.springboot_product_crud.dto.ProdutoDTO;
 import java.util.Map;
 
 
@@ -24,6 +24,11 @@ public class ProdutoController {
     @GetMapping
     public List<Produto> listar() {
         return service.listar();
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Produto> buscarPorId(@PathVariable Long id){
+        Produto produto = service.buscarPorId(id);
+        return ResponseEntity.ok(produto);
     }
 
     @PostMapping
