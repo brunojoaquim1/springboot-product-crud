@@ -1,11 +1,14 @@
 package com.jocca.springboot_product_crud.controller;
 
+import com.jocca.springboot_product_crud.dto.APIResponse;
 import com.jocca.springboot_product_crud.model.Produto;
 import com.jocca.springboot_product_crud.service.ProdutoService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.*;
+
+import java.net.URI;
 import java.util.List;
 import com.jocca.springboot_product_crud.dto.ProdutoDTO;
 import java.util.Map;
@@ -32,31 +35,23 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public Produto salvar(@Valid @RequestBody Produto produto) {
-        return service.salvar(produto);
+    public ResponseEntity<APIResponse<Produto>> salvar(@Valid @RequestBody ProdutoDTO dto) {
+        APIResponse<Produto> response = service.salvar(dto);
+        URI location = URI.create("/produtos/" + response.getData().getId());
+        return ResponseEntity.created(location).body(response);
     }
-    /*
-    public Produto atualizar(@PathVariable Long id, @Valid @RequestBody Produto produto){
-        return service.atualizar(id, produto);
-    }*/
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletar(@PathVariable Long id) {
-        service.deletar(id);
-        return ResponseEntity.ok().body(
-        Map.of("mensagem", "OK - Deletado com sucesso")
-        );
+    public ResponseEntity<APIResponse<Void>> deletar(@PathVariable Long id) {
+        return ResponseEntity.ok(service.deletar(id));
     }
-    
-    @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarProduto(
-            @PathVariable Long id,
-            @RequestBody @Valid ProdutoDTO dto) {
 
-        Produto atualizado = service.atualizarProduto(id, dto);
-        return ResponseEntity.ok().body(
-        Map.of("mensagem", "OK - Atualizado com sucesso")
-        );
+
+    @PutMapping("/{id}")
+    public ResponseEntity<APIResponse<Void>> atualizarProduto(@PathVariable Long id,
+                                                              @Valid @RequestBody ProdutoDTO dto) {
+        return ResponseEntity.ok(service.atualizarProduto(id, dto));
     }
+
 
 }

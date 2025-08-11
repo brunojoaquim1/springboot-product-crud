@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 
-@ControllerAdvice
+
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     // Method to handle IllegalArgumentException
